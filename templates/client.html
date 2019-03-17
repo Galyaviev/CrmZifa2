@@ -17,7 +17,7 @@
         {% endif %}
     {% endwith %}
 
-    <div class="container col-lg-10">
+    <div class="container col-md-12">
         <input class="form-control" id="myInput" type="text" placeholder="Поиск..">
         <br>
         <a href="/add_client" class="btn btn-primary" role="button" aria-pressed="true">Добавить пользователя</a>
@@ -42,7 +42,7 @@
                     <td>{{ data.2 }}</td>
                     <td>{{ data.3 }}</td>
                     <td>{{ data.4 }}</td>
-                    <td>{{ data.5 }}</td>
+                    <td>{{ data.5 }} ₽</td>
                     <td>
                         <a href="/edit/{{ data.0 }}" class="btn btn-success" role="button" aria-pressed="true">edit</a>
                         <a href="/del/{{ data.0 }}" class="btn btn-danger" role="button" aria-pressed="true">del </a>

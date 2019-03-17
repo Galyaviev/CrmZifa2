@@ -39,7 +39,7 @@ def login():
 @login_required
 def client():
     if current_user.login == 'admin@admin.ru':
-        data = Autorization.select()
+        data = Autorization.select().order_by(Autorization.time.desc())
         auto = []
         for i in data:
             auto.append((i.id, i.login, i.password, str(i.time), i.full_name, i.balance))
@@ -82,27 +82,31 @@ def balance_edit(id):
 @app.route('/add_client', methods=['POST', 'GET'])
 def get_add():
     if request.method == 'POST':
-        if request.form['password'] == request.form['password2']:
-            if request.form['fullName'] == '':
-                flash("Одно из полей не было заполнено")
-                return redirect(url_for('get_add'))
-            elif request.form['password'] == '':
-                flash("Одно из полей не было заполнено")
-                return redirect(url_for('get_add'))
-            elif request.form['login'] == '':
-                flash("Одно из полей не было заполнено")
-                return redirect(url_for('get_add'))
+        try:
+            if request.form['password'] == request.form['password2']:
+                if request.form['fullName'] == '':
+                    flash("Одно из полей не было заполнено")
+                    return redirect(url_for('get_add'))
+                elif request.form['password'] == '':
+                    flash("Одно из полей не было заполнено")
+                    return redirect(url_for('get_add'))
+                elif request.form['login'] == '':
+                    flash("Одно из полей не было заполнено")
+                    return redirect(url_for('get_add'))
+                else:
+                    fullname = request.form['fullName']
+                    password = request.form['password']
+                    login = request.form['login']
+
+                    Autorization.create(login=login, password=password, full_name=fullname)
+
+                    flash('Пользователь добавлен')
+                    return redirect(url_for('client'))
             else:
-                fullname = request.form['fullName']
-                password = request.form['password']
-                login = request.form['login']
-
-                Autorization.create(login=login, password=password, full_name=fullname)
-
-                flash('Пользователь добавлен')
-                return redirect(url_for('client'))
-        else:
-            flash('Введенные пароли не совпадают')
+                flash('Введенные пароли не совпадают')
+                return redirect(url_for('get_add'))
+        except:
+            flash('Такой Login уже существует')
             return redirect(url_for('get_add'))
 
     return render_template('add_client.html')
