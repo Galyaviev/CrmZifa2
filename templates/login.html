@@ -12,23 +12,26 @@
     <title>NextCRM</title>
 </head>
 <body>
+<h2> Пожалуйста авторизуйтесь</h2>
 <div class="container col-sm-4">
-    <h1>Пожалуйста авторизуйтесь</h1>
-<form action="/login" method="POST">
-    <div class="container mt-3">
-    <div class="form-group">
-        <label for="exampleInputEmail1">Логин</label>
-        <input name="login" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-               placeholder="Введите логин">
 
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль">
-    </div>
-        <button type="submit" class="btn btn-primary">Зайти</button>
-    </div>
-</form>
+    <form action="/login" method="POST">
+        <div class="container mt-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Логин</label>
+                <input name="login" type="email" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp"
+                       placeholder="Введите логин">
+
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Пароль</label>
+                <input name="password" type="password" class="form-control" id="exampleInputPassword1"
+                       placeholder="Введите пароль">
+            </div>
+            <button type="submit" class="btn btn-primary">Зайти</button>
+        </div>
+    </form>
 
 </div>
 <!-- Optional JavaScript -->

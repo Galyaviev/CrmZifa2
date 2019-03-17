@@ -1,30 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <div class="alert alert-danger" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>Ошибка!!! </strong>{{ message }}
-</div>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-<div class="container mt-3">
-    <form action="/balance/{{ data.0 }}" method="POST">
-      <div class="form-group">
-        <label for="fullNameInput">Full name</label>
-        <input type="text" class="form-control" name="fullName"  placeholder='{{ data.1 }}'>
-      </div>
-      <div class="form-group">
-        <label for="balanceInput">balance</label>
-        <input type="text" class="form-control" name="balance" placeholder="{{ data.2 }}">
-      </div>
-      <button type="submit" class="btn btn-primary">Сохранить</button>
-    </form>
-</div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Ошибка!!! </strong>{{ message }}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <div class="container mt-3">
+        <form action="/balance/{{ data.0 }}" method="POST">
+            <div class="form-group">
+                <label for="fullNameInput">Full name</label>
+                <input type="text" class="form-control" name="fullName" placeholder='{{ data.1 }}'>
+            </div>
+            <div class="form-group">
+                <label for="balanceInput">balance</label>
+                <input type="text" class="form-control" name="balance" placeholder="{{ data.2 }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+    </div>
 {% endblock %}

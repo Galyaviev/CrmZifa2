@@ -8,6 +8,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return Autorization.select().where(Autorization.id == user_id).first()
@@ -22,6 +23,7 @@ def index():
 def logout():
     logout_user()
     return render_template('login.html')
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -46,7 +48,9 @@ def client():
         return render_template('client.html', datas=auto)
     return '<h1>Вам сюда нельзя</h1>'
 
+
 @app.route('/edit/<id>')
+@login_required
 def get_edit(id):
     data = Autorization.select().where(Autorization.id == id).get()
     auto = []
@@ -56,6 +60,7 @@ def get_edit(id):
 
 
 @app.route('/balance/<id>', methods=['POST', 'GET'])
+@login_required
 def balance_edit(id):
     if request.method == 'POST':
         if request.form['balance'] == '':
@@ -80,6 +85,7 @@ def balance_edit(id):
 
 
 @app.route('/add_client', methods=['POST', 'GET'])
+@login_required
 def get_add():
     if request.method == 'POST':
         try:
@@ -113,6 +119,7 @@ def get_add():
 
 
 @app.route('/del/<id>')
+@login_required
 def get_del(id):
     Autorization.delete().where(Autorization.id == id).execute()
     flash('Пользователь удален')
@@ -120,6 +127,7 @@ def get_del(id):
 
 
 @app.route('/update/<id>', methods=['POST'])
+@login_required
 def get_update(id):
     if request.method == 'POST':
         if request.form['fullName'] == '':
