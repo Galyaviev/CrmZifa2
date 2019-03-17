@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <div class="alert alert-danger" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Ошибка!!! </strong>{{ message }}
+</div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<div class="container mt-3">
+    <form action="/update/{{ data.0 }}" method="POST">
+      <div class="form-group">
+        <label for="fullNameInput">Full name</label>
+        <input type="text" readonly class="form-control" name="fullName"  placeholder='{{ data.4 }}'value="{{ data.4 }}">
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input type="text" class="form-control" name="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary">Изменить</button>
+    </form>
+</div>
+{% endblock %}
