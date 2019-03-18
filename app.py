@@ -11,6 +11,7 @@ login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
+
     return Autorization.select().where(Autorization.id == user_id).first()
 
 
