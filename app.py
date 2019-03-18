@@ -41,11 +41,15 @@ def login():
 @app.route('/client')
 @login_required
 def client():
+
     if current_user.login == 'admin@admin.ru':
+
         data = Autorization.select().order_by(Autorization.time.desc())
+
         auto = []
         for i in data:
-            auto.append((i.id, i.login, i.password, str(i.time), i.full_name, i.balance))
+
+            auto.append((i.id, i.login, i.password, str(i.time), i.full_name))
         return render_template('client.html', datas=auto)
     return '<h1>Вам сюда нельзя</h1>'
 
@@ -63,26 +67,11 @@ def get_edit(id):
 @app.route('/balance/<id>', methods=['POST', 'GET'])
 @login_required
 def balance_edit(id):
-    if request.method == 'POST':
-        if request.form['balance'] == '':
-            return redirect(url_for('client'))
-
-        else:
-            try:
-                balance = request.form['balance']
-                Autorization.update(balance=balance).where(Autorization.id == id).execute()
-                flash('Баланс изменен')
-                return redirect(url_for('client'))
-            except:
-                flash('БАЛАНС НЕ ИЗМЕНИЛСЯ')
-                return redirect(url_for('client'))
-
-    data = Autorization.select().where(Autorization.id == id).get()
-    auto = []
-    auto.append((data.id, data.full_name, data.balance))
-    data = auto[0]
-
-    return render_template('balance.html', data=data)
+    list =[]
+    balance_user = Balance.select().where(Balance.owner == Autorization.select().where(Autorization.id == id).get())
+    for i in balance_user:
+        list.append((i.balance, i.time, i.owner_id))
+    return render_template('balance.html', datas=list)
 
 
 @app.route('/add_client', methods=['POST', 'GET'])
@@ -105,7 +94,7 @@ def get_add():
                     password = request.form['password']
                     login = request.form['login']
 
-                    Autorization.create(login=login, password=password, full_name=fullname)
+                    Autorization.create(login=login, full_name=fullname)
 
                     flash('Пользователь добавлен')
                     return redirect(url_for('client'))
