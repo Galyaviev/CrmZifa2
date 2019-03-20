@@ -24,7 +24,45 @@ class Balance(Model):
         database = db
 
 
+class Thing(Model):
+    owner = ForeignKeyField(Autorization, related_name='things')
+    name_thing = TextField()
+    size = TextField()
+    price = FloatField()
+    currently = FloatField()
+    time = DateTimeField(default=datetime.today().replace(microsecond=0))
+    shop = TextField()
+    weght = FloatField(default=0)
+    price_delivery = FloatField(default=0)
+    time_delivery = DateTimeField(default=0)
 
+    class Meta:
+        database = db
+
+
+
+#
+# Thing.create(
+#     owner=Autorization.select().where(Autorization.login == '1@1.ru').get(),
+#     name_thing = 'штаны',
+#     size = '12',
+#     price = 14,
+#     currently = 70,
+#     shop = 'NExt')
+
+
+
+# db.create_tables([Thing])
+# db.drop_tables([Thing])
+
+
+
+
+
+
+
+
+# Balance.delete().where(Balance.id == 6).execute()
 # #
 # db.connect()
 # db.create_tables([Autorization])
@@ -35,8 +73,8 @@ class Balance(Model):
 # Autorization.create(login = 'admin@admin.ru', password = '1234', full_name = 'Админов Админ Админович')
 # Сощдание балансов
 # Balance.create(owner=Autorization.select().where(Autorization.login == 'admin@admin.ru').get())
-# Balance.create(owner=Autorization.select().where(Autorization.login == 'admin@admin.ru').get(), balance=-500)
-# Balance.create(owner=Autorization.select().where(Autorization.login == 'user2@user.ru').get(), balance=1000)
+# Balance.create(owner=Autorization.select().where(Autorization.login == 'admin@admin.ru').get(), balance=-350.23)
+# Balance.create(owner=Autorization.select().where(Autorization.login == 'asasa@sdsdsd.ru').get(), balance=-325.45)
 
 # user  = Autorization.select().where(Autorization.id == 3).get()
 # print(user)
@@ -60,3 +98,18 @@ class Balance(Model):
 #
 # print(balance)
 
+#
+# data = Autorization.select().order_by(Autorization.time.desc())
+#
+# auto = []
+# a = 0
+# for i in data:
+#     for b in i.balances:
+#         a = a + b.balance
+#     auto.append((i.id, i.login, i.password, str(i.time), i.full_name, a))
+#     print(a)
+#     a = 0
+#
+#
+#
+# print(auto)

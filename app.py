@@ -11,9 +11,22 @@ login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
-
     return Autorization.select().where(Autorization.id == user_id).first()
 
+
+@app.route('/things')
+@login_required
+def things():
+    if current_user.login == 'admin@admin.ru':
+        data = Thing.select().order_by(Thing.time.desc())
+        auto = []
+        for i in data:
+            rub = i.price * i.currently
+            client = Autorization.select().where(Autorization.id == i.owner_id).get().full_name
+            auto.append((i.id, client, i.name_thing, i.size, i.price, i.currently, rub, i.time, i.shop, i.weght, i.price_delivery, i.time_delivery))
+
+        return render_template('things.html', datas=auto)
+    return '<h1>Вам сюда нельзя</h1>'
 
 @app.route('/')
 def index():
@@ -41,15 +54,17 @@ def login():
 @app.route('/client')
 @login_required
 def client():
-
     if current_user.login == 'admin@admin.ru':
-
         data = Autorization.select().order_by(Autorization.time.desc())
-
+        sum_balance = 0
         auto = []
         for i in data:
+            for b in i.balances:
+                sum_balance = sum_balance + b.balance
 
-            auto.append((i.id, i.login, i.password, str(i.time), i.full_name))
+            auto.append((i.id, i.login, i.password, str(i.time), i.full_name, sum_balance))
+            sum_balance = 0
+
         return render_template('client.html', datas=auto)
     return '<h1>Вам сюда нельзя</h1>'
 
@@ -67,10 +82,17 @@ def get_edit(id):
 @app.route('/balance/<id>', methods=['POST', 'GET'])
 @login_required
 def balance_edit(id):
+
+    if request.method == "POST":
+        money = request.form['money']
+        print(id)
+        print(money)
+        Balance.create(owner=Autorization.select().where(Autorization.id == id).get(),balance=money)
+        return redirect(url_for('balance_edit', id=id))
     list =[]
-    balance_user = Balance.select().where(Balance.owner == Autorization.select().where(Autorization.id == id).get())
+    balance_user = Balance.select().order_by(Balance.time.desc()).where(Balance.owner == Autorization.select().where(Autorization.id == id).get())
     for i in balance_user:
-        list.append((i.balance, i.time, i.owner_id))
+        list.append((i.balance, i.time, i.owner_id, i.id))
     return render_template('balance.html', datas=list)
 
 
@@ -94,7 +116,8 @@ def get_add():
                     password = request.form['password']
                     login = request.form['login']
 
-                    Autorization.create(login=login, full_name=fullname)
+                    Autorization.create(login=login, full_name=fullname, password=password)
+                    Balance.create(owner=Autorization.select().where(Autorization.login == login).get())
 
                     flash('Пользователь добавлен')
                     return redirect(url_for('client'))
@@ -111,10 +134,19 @@ def get_add():
 @app.route('/del/<id>')
 @login_required
 def get_del(id):
+    Balance.delete().where(Balance.owner_id == id).execute()
     Autorization.delete().where(Autorization.id == id).execute()
     flash('Пользователь удален')
     return redirect(url_for('client'))
 
+
+@app.route('/balance_del/<id>', methods=['POST', 'GET'])
+@login_required
+def balance_del(id):
+    balance_id = request.values['balance_id']
+    Balance.delete().where(Balance.id == id).execute()
+    flash('Запись удаленна')
+    return redirect(url_for('balance_edit',id=balance_id))
 
 @app.route('/update/<id>', methods=['POST'])
 @login_required

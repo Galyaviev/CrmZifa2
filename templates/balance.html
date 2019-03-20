@@ -1,19 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container col-md-12">
-        <input class="form-control" id="myInput" type="text" placeholder="Поиск..">
-        <br>
-        <a href="#" class="btn btn-primary" role="button" aria-pressed="true">Вести измененя</a>
-        <br>
-        <br>
+     {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Отлично!!! </strong>{{ message }}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <div class="container col-md-12">
+    <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col ">
+                    {% for data in datas %}
+                <form action="/balance/{{ data.2 }}" method="POST">
+                    {% endfor %}
 
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" name="money" id="money"
+                                   aria-describedby="" placeholder="Например: -100 или 100">
+                        </div>
+                         <button type="submit" class="btn btn-primary">Money</button>
+                        <br>
+                        <br>
+
+                    </form>
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
         <table class="table table-bordered">
             <thead class="thead-dark">
             <tr>
                 <th>Баланс</th>
                 <th>Дата обнавления</th>
                 <th>Редоктирование</th>
-
             </tr>
             </thead>
             <tbody id="myTable">
@@ -22,8 +53,12 @@
                     <td>{{ data.0 }}</td>
                     <td>{{ data.1 }}</td>
                     <td>
-
-                        <a href={{ data.2 }} class="btn btn-danger" role="button" aria-pressed="true">del </a>
+                        <form action="/balance_del/{{ data.3 }}" method="POST">
+                            <div>
+                            <input type="hidden" name="balance_id" id="balance_id" value="{{ data.2 }}">
+                        </div>
+                         <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
 
                     </td>
                 </tr>
