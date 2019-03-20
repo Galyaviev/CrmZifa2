@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Отлично!!! </strong>{{ message }}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container col-md-12">
+        <input class="form-control" id="myInput" type="text" placeholder="Поиск..">
+        <br>
+        <a href="/thing_add" class="btn btn-primary" role="button" aria-pressed="true">Добавить вешь</a>
+        <br>
+        <br>
+
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Клиент</th>
+                <th>Наименование</th>
+                <th>Размер вещи</th>
+                <th>Стоимость в фунт.</th>
+                <th>Курс</th>
+                <th>Стоимость в руб.</th>
+                <th>Дата выкупа</th>
+                <th>Магазин</th>
+                <th>Вес</th>
+                <th>Стоимость доставки</th>
+                <th>Дата доставки</th>
+                <th>Редактирование</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for data in datas %}
+                <tr>
+                    <td>{{ data.1 }}</td>
+                    <td>{{ data.2 }}</td>
+                    <td>{{ data.3 }}</td>
+                    <td>{{ data.4 }}</td>
+                    <td>{{ data.5 }}</td>
+                    <td>{{ data.6 }}</td>
+                    <td>{{ data.7 }}</td>
+                    <td>{{ data.8 }}</td>
+                    <td>{{ data.9 }}</td>
+                    <td>{{ data.10 }}</td>
+                    <td>{{ data.11 }}</td>
+
+                    <td>
+                        <a href="/edit/{{ data.0 }}" class="btn btn-success" role="button" aria-pressed="true">edit</a>
+                        <a href="/del/{{ data.0 }}" class="btn btn-danger" role="button" aria-pressed="true">del </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+
+{% endblock %}
