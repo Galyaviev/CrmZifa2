@@ -14,6 +14,16 @@ def load_user(user_id):
     return Autorization.select().where(Autorization.id == user_id).first()
 
 
+@app.route('/thing_add')
+def thing_add():
+    list = []
+    data = Autorization.select()
+    for i in data:
+        list.append(i.full_name)
+    return render_template('thing_add.html', datas=list)
+
+
+
 @app.route('/things')
 @login_required
 def things():

@@ -1,10 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
 
-</body>
-</html>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Ошибка!!! </strong>{{ message }}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <div class="container-fluid">
+                    <form action="/thing_add" method="POST">
+        <div class="row">
+
+                <div class="col">
+                    <div class="form-group">
+                        <label for="fullNameInput">Клиент</label>
+                        <select class="form-control form-control-sm" name="fullname">
+                            {% for data in datas %}
+                                <option>{{ data }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginInput">Наименование</label>
+                        <input type="text" class="form-control form-control-sm" name="thing" placeholder='Введите название товара'>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput">Размер</label>
+                        <input type="text" class="form-control form-control-sm" name="size" placeholder="Введите размер">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput">Цена в £</label>
+                        <input type="number" class="form-control form-control-sm" name="price" placeholder="Введите цену">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </div>
+
+
+                <div class="col">
+                    <div class="form-group">
+                        <label for="loginInput">Курс £</label>
+                        <input type="number" class="form-control form-control-sm" name="currently" placeholder='Введите значение'>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginInput">Дата выкупа</label>
+                        <input type="date" class="form-control form-control-sm" name="time" placeholder='Введите дату покупки товара'>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput">Магазин</label>
+                        <input type="text" class="form-control form-control-sm" name="shop" placeholder="Введите название магазина в котором была совершена покупка">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput">Вес заказа</label>
+                        <input type="number" class="form-control form-control-sm" name="weght" placeholder="Введите вес в граммах">
+                    </div>
+                </div>
+
+        <div class="col">
+                    <div class="form-group">
+                        <label for="loginInput">Стоимость доставки</label>
+                        <input type="text" class="form-control form-control-sm" name="price_delivery" placeholder='Введите стоимость доставки'>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginInput">Дата доставки</label>
+                        <input type="date" class="form-control form-control-sm" name="time_delivery" placeholder='Введите дату доставки'>
+                    </div>
+        </div>
+
+
+
+
+        </div>
+                    </form>
+    </div>
+{% endblock %}
+
