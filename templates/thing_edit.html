@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Ошибка!!! </strong>{{ message }}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <form action="/thing_edit/{{ data.5 }}" method="POST">
+            <div class="form-group">
+                <label for="fullNameInput">Клиент</label>
+                <input type="text" readonly class="form-control" name="fullName" placeholder='{{ data.0 }}'
+                       value="{{ data.0 }}">
+            </div>
+            <div class="form-group">
+                <label for="fullNameInput">Название товара</label>
+                <input type="text" readonly class="form-control" name="name_thing" placeholder='{{ data.1 }}'
+                       value="{{ data.1 }}">
+            </div>
+            <div class="form-group">
+                <label for="fullNameInput">Вес посылки</label>
+                <input type="number" step="0.01" class="form-control" name="weght" placeholder='{{ data.2 }}'
+                       value="{{ data.2 }}">
+            </div>
+            <div class="form-group">
+                <label for="fullNameInput">Стоимость доставки</label>
+                <input type="number" step="0.01" class="form-control" name="price_delivery" placeholder='{{ data.3 }}'
+                       value="{{ data.3 }}">
+            </div>
+            <div class="form-group">
+                <label for="fullNameInput">Дата доставки</label>
+                <input type="date" class="form-control" name="time_delivery" placeholder='{{ data.4 }}'
+                       value="{{ data.4 }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Изменить</button>
+        </form>
+    </div>
+{% endblock %}

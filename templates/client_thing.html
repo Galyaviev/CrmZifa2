@@ -1,33 +1,44 @@
-{% extends "base.html" %}
-{% block content %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class=flashes>
-                {% for message in messages %}
-                    <div class="alert alert-success" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Отлично!!! </strong>{{ message }}
-                    </div>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+<!doctype html>
+<html lang="en">
+<head>
 
-    <div class="container col-md-12">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>NextCRM</title>
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a href="#" class="navbar-brand">
+        <img src="/static/emoji.png" width="30" height="30" alt="logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a href="#" class="nav-link">{{ name }}</a>
+            </li>
+
+        </ul>
+        <a type="button" class="btn btn-outline-success my-2 my-sm-0" href="/logout">Выйти</a>
+    </div>
+</nav>
+<p></p>
+<div class="container col-md-12">
         <input class="form-control" id="myInput" type="text" placeholder="Поиск..">
-        <br>
-        <a href="/thing_add" class="btn btn-primary" role="button" aria-pressed="true">Добавить вешь</a>
+
         <br>
         <br>
 
         <table class="table table-bordered">
             <thead class="thead-dark">
             <tr>
-                <th>Клиент</th>
                 <th>Наименование</th>
                 <th>Размер вещи</th>
                 <th>Стоимость в фунт.</th>
@@ -38,12 +49,12 @@
                 <th>Вес</th>
                 <th>Стоимость доставки</th>
                 <th>Дата доставки</th>
-                <th>Редактирование</th>
             </tr>
             </thead>
             <tbody id="myTable">
             {% for data in datas %}
                 <tr>
+                    <td>{{ data.0 }}</td>
                     <td>{{ data.1 }}</td>
                     <td>{{ data.2 }}</td>
                     <td>{{ data.3 }}</td>
@@ -53,13 +64,8 @@
                     <td>{{ data.7 }}</td>
                     <td>{{ data.8 }}</td>
                     <td>{{ data.9 }}</td>
-                    <td>{{ data.10 }}</td>
-                    <td>{{ data.11 }}</td>
 
-                    <td>
-                        <a href="/thing_edit/{{ data.0 }}" class="btn btn-success" role="button" aria-pressed="true">edit</a>
-                        <a href="/thing_del/{{ data.0 }}" class="btn btn-danger" role="button" aria-pressed="true">del </a>
-                    </td>
+
 
                 </tr>
             {% endfor %}
@@ -76,7 +82,4 @@
             });
         });
     </script>
-
-
-
-{% endblock %}
+</body>

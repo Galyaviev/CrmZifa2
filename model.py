@@ -40,7 +40,6 @@ class Thing(Model):
         database = db
 
 
-
 #
 # Thing.create(
 #     owner=Autorization.select().where(Autorization.login == '1@1.ru').get(),
@@ -61,7 +60,7 @@ class Thing(Model):
 
 
 
-
+# Autorization.create(login = 'user@user.ru', password = 'user1', full_name = 'Иван иванов иванович')
 # Balance.delete().where(Balance.id == 6).execute()
 # #
 # db.connect()
