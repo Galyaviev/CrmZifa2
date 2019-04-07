@@ -78,10 +78,12 @@ class Thing(Model):
 # user  = Autorization.select().where(Autorization.id == 3).get()
 # print(user)
 
-
-# balance_user = Balance.select().where(Balance.owner == Autorization.select().where(Autorization.login == 'admin@admin.ru').get())
+#
+# balance_user = Balance.select().where(Balance.owner == Autorization.select().where(Autorization.login == 'misha@yandex.ru').get())
 # for i in balance_user:
-#     print(i.balance, i.time)
+#     i.time = str(i.time).split()
+#     print(i.time[0])
+
 
 #
 # balance_user = Balance.select().where(Balance.owner == Autorization.select().where(Autorization.login == user.login).get())

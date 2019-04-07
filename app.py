@@ -75,6 +75,9 @@ def things():
         for i in data:
             rub = i.price * i.currently
             client = Autorization.select().where(Autorization.id == i.owner_id).get().full_name
+            i.time = str(i.time).split()[0]
+            i.time_delivery = str(i.time_delivery).split()[0]
+
             auto.append((i.id, client, i.name_thing, i.size, i.price, i.currently, rub, i.time, i.shop, i.weght,
                          i.price_delivery, i.time_delivery))
 
@@ -127,7 +130,8 @@ def client():
             for b in i.balances:
                 sum_balance = sum_balance + b.balance
 
-            auto.append((i.id, i.login, i.password, str(i.time), i.full_name, sum_balance))
+            i.time = str(i.time)
+            auto.append((i.id, i.login, i.password, i.time, i.full_name, sum_balance))
             sum_balance = 0
 
         return render_template('client.html', datas=auto)
